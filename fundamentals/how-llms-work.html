@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Learning — How LLMs Work (ELI5 → Technical)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #0f0f1a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .card {
+    background: #1a1a2e;
+    border: 1px solid #2a2a4a;
+    border-radius: 24px;
+    padding: 35px;
+    max-width: 680px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h1 span { font-size: 30px; }
+  .subtitle { color: #8888aa; font-size: 14px; margin-bottom: 24px; }
+
+  /* ELI5 bubble */
+  .eli5-box {
+    background: linear-gradient(135deg, #1a2a3e, #1e2d44);
+    border: 2px solid #3a6a9a;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .eli5-tag {
+    position: absolute;
+    top: -12px;
+    left: 16px;
+    background: #3a6a9a;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 12px;
+    border-radius: 10px;
+    letter-spacing: 1px;
+  }
+  .eli5-content {
+    margin-top: 4px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #c0d0e8;
+  }
+  .eli5-content strong { color: #80bfff; }
+
+  /* Technical section */
+  .tech-box {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid #2a2a4a;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .tech-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: #8888cc;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .tech-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .tech-item .icon { font-size: 24px; margin-bottom: 4px; }
+  .tech-item h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #d0d0ff;
+    margin-bottom: 4px;
+  }
+  .tech-item p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #9999bb;
+  }
+  .tech-item code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #ffd700;
+    background: rgba(255,215,0,0.08);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* Bridge line */
+  .bridge {
+    text-align: center;
+    color: #555577;
+    font-size: 13px;
+    margin: -8px 0 16px;
+    font-style: italic;
+  }
+
+  /* Action bar */
+  .action-bar {
+    background: rgba(50, 200, 120, 0.08);
+    border: 1px solid rgba(50, 200, 120, 0.2);
+    border-radius: 12px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .action-bar span:first-child { font-size: 20px; }
+  .action-bar p { font-size: 14px; color: #a0e0c0; }
+  .action-bar strong { color: #32c878; }
+
+  .footer {
+    text-align: center;
+    color: #444466;
+    font-size: 12px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  @media (max-width: 550px) {
+    .tech-grid { grid-template-columns: 1fr; }
+    .card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1><span>🤖</span> How LLMs Work</h1>
+  <div class="subtitle">Day #X · AI Learning — Like you're 5, then like you're an engineer</div>
+
+  <!-- === ELI5 Section === -->
+  <div class="eli5-box">
+    <div class="eli5-tag">🧒 LIKE YOU'RE 5</div>
+    <div class="eli5-content">
+      Imagine you have a <strong>magic word machine</strong>. You type "Once upon a..." and the machine guesses the next word. It thinks:<br><br>
+      🤔 <em>"Hmm, people usually say 'Once upon a <strong>time</strong>'. But also sometimes 'Once upon a <strong>story</strong>'. I'll pick 'time' — that feels safest."</em><br><br>
+      The machine does this <strong>one word at a time</strong>, always guessing the next word based on everything you've said so far. It's like playing that game where you build a story one word at a time — except this machine read <strong>almost everything on the internet</strong> to practice, so it's really good at guessing.<br><br>
+      <strong>The secret:</strong> It doesn't "think" or "understand" like you do. It just got really, <em>really</em> good at the guessing game.
+    </div>
+  </div>
+
+  <div class="bridge">↓ Now let's call it what it really is ↓</div>
+
+  <!-- === Technical Section === -->
+  <div class="tech-box">
+    <div class="tech-tag">🔧 FOR THE ENGINEER</div>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <div class="icon">🔤</div>
+        <h4>Tokenization</h4>
+        <p>"Hello world" → <code>["Hello", " wo", "rld"]</code>. ~0.75 tokens per word. DeepSeek V4 handles <strong>128K tokens</strong> per request (~170K words — a whole novel).</p>
+      </div>
+      <div class="tech-item">
+        <div class="icon">🧠</div>
+        <h4>Self-Attention</h4>
+        <p>Every token scores its relevance to every other token. The <code>Q·K^T / √d</code> matrix determines "how much should I pay attention to word #5 when generating word #12?"</p>
+      </div>
+      <div class="tech-item">
+        <div class="icon">🎲</div>
+        <h4>Temperature</h4>
+        <p>Controls the probability distribution over next tokens. <code>temp=0</code> → greedy (always most likely). <code>temp=0.7</code> → creative. <code>top_p=0.9</code> → nucleus sampling (only consider top 90% probability mass).</p>
+      </div>
+      <div class="tech-item">
+        <div class="icon">🏗️</div>
+        <h4>MoE Architecture</h4>
+        <p>DeepSeek V4 uses <strong>Mixture of Experts</strong>: 680B total params, but only ~37B active per token. A router network picks which "expert" sub-networks to activate — like having 680 specialists but paying only 37.</p>
+      </div>
+      <div class="tech-item">
+        <div class="icon">📚</div>
+        <h4>3 Training Stages</h4>
+        <p><strong>1.</strong> Pretraining (predict next word on internet text) → <strong>2.</strong> Instruction fine-tuning (Q&A format) → <strong>3.</strong> RLHF (human preferences via reward model).</p>
+      </div>
+      <div class="tech-item">
+        <div class="icon">🔗</div>
+        <h4>RAG (Retrieval-Augmented Gen)</h4>
+        <p>Before generating, search a vector DB for relevant documents. Inject them into context. No retraining needed. This is how Hermes knows your <code>config.yaml</code> without memorizing it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-bar">
+    <span>⚡</span>
+    <p><strong>Today's micro-action:</strong> Ask your AI to explain the attention mechanism using <em>a different analogy</em> (sports, cooking, or movies). The more analogies you hear, the better you understand.</p>
+  </div>
+
+  <div class="footer">
+    Daily Insight · AI Learning · Day #X &nbsp;|&nbsp; 💫 Small steps. Every day.
+  </div>
+</div>
+</body>
+</html>
