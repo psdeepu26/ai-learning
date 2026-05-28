@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insight #1 — AI Learning</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #e0e0e0;
+  }
+  .card {
+    background: rgba(30, 30, 50, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 580px;
+    width: 100%;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .emoji { font-size: 32px; }
+  .topic { font-size: 14px; font-weight: 600; color: #8888cc; text-transform: uppercase; letter-spacing: 1px; }
+  .day { font-size: 12px; color: #666; margin-top: 2px; }
+  .date { font-size: 13px; color: #888; margin-bottom: 24px; }
+  .streak { 
+    display: inline-block;
+    background: rgba(255, 200, 50, 0.15);
+    color: #ffcc33;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .insight {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #d0d0e0;
+    margin-bottom: 24px;
+  }
+  .divider { height: 1px; background: rgba(255,255,255,0.06); margin: 20px 0; }
+  .footer { font-size: 12px; color: #555; text-align: center; }
+  .micro-action {
+    background: rgba(50, 200, 120, 0.1);
+    border-left: 3px solid #32c878;
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #a0e0c0;
+  }
+  .micro-action strong { color: #32c878; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <span class="emoji">🧠</span>
+    <div>
+      <div class="topic">AI Learning</div>
+      <div class="day">Day #1</div>
+    </div>
+  </div>
+  <div class="date">Friday, 29 May 2026</div>
+  <div class="insight">
+    <p><strong>👶 ELI5:</strong> You know how when you practice a sport, at first you think about every move — "okay, left foot here, now swing" — but after a while your body just <em>knows</em>? AI reasoning models like o1, R1, and Gemini 2.5 are learning to do that with thinking. Instead of blurting out the first answer, they pause, work through it step by step, and sometimes even catch their own mistakes mid-sentence. Like a chess player who mutters "hmm, no, that won't work..." before finding the right move.</p>
+
+    <p><strong>🔬 The real deal:</strong> Chain-of-thought reasoning in LLMs works by generating intermediate "thought tokens" before the final answer. What's new in the latest reasoning models (OpenAI o1/o3, DeepSeek-R1, Gemini 2.5 Pro) is that they're trained with reinforcement learning to <em>discover</em> effective reasoning strategies on their own — backtracing, verification, decomposition — rather than relying on hand-crafted prompts. The model essentially learns to "think" by exploring more of the computation graph at inference time, using more tokens to solve harder problems. For you running Hermes Agent and vLLM at NVCF, this matters because reasoning models shift the trade-off: you pay more in latency and tokens for dramatically better accuracy on complex tasks like code generation, multi-step debugging, and planning.</p>
+
+    <p><strong>💡 Why it matters for you:</strong> Your AI stack (Hermes Agent, vLLM serving, Llama.cpp for local inference) is directly in the path of this shift. The next time you're debugging a tricky NVCF deployment issue or reviewing a complex PR, a reasoning model might spot what a standard instruct model glosses over — but you'll need to budget for longer generation times and higher token counts. It's not just "better AI" — it's a fundamentally different <em>kind</em> of inference that changes how you design your agentic workflows.</p>
+  </div>
+  <div class="micro-action"><strong>⚡ Today's micro-action:</strong> Open ChatGPT or Claude, pick a reasoning model, and ask it a question that you'd normally Google — compare the step-by-step thinking to what a non-reasoning model says. See the difference for yourself.</div>
+  <div class="divider"></div>
+  <div class="footer">💫 Small steps. Every day. 🚀</div>
+</div>
+</body>
+</html>
