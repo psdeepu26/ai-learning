@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mixture of Experts: How Giant Models Stay Fast</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0f; color: #e0e0e0; line-height: 1.6; padding: 20px; }
+  .card { max-width: 720px; margin: 0 auto; background: #12121a; border-radius: 16px; overflow: hidden; border: 1px solid #1e1e2e; }
+  .header { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 28px 32px; }
+  .header .topic { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; margin-bottom: 8px; }
+  .header h1 { font-size: 24px; font-weight: 700; line-height: 1.3; }
+  .header .date { font-size: 13px; opacity: 0.7; margin-top: 8px; }
+  .section { padding: 24px 32px; border-bottom: 1px solid #1e1e2e; }
+  .section:last-child { border-bottom: none; }
+  .section h2 { font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .section p { color: #b0b0c0; font-size: 15px; }
+  .bridge { text-align: center; font-size: 20px; color: #f093fb; padding: 8px; }
+  .tech-grid { display: grid; gap: 16px; margin-top: 12px; }
+  .tech-item { background: #1a1a28; border-radius: 10px; padding: 16px; border-left: 3px solid #f093fb; }
+  .tech-item h3 { font-size: 14px; color: #f0a0ff; margin-bottom: 6px; }
+  .tech-item p { font-size: 14px; color: #c0c0d0; }
+  pre { background: #0d0d15; border-radius: 8px; padding: 14px; overflow-x: auto; font-size: 13px; color: #8be9fd; margin-top: 8px; border: 1px solid #1e1e2e; }
+  code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+  .micro-action { background: linear-gradient(135deg, #1a2a1a 0%, #0f1f0f 100%); border: 1px solid #2a4a2a; border-radius: 10px; padding: 18px; margin-top: 12px; }
+  .micro-action h3 { color: #6f6; font-size: 15px; margin-bottom: 6px; }
+  .micro-action p { color: #a0c0a0; font-size: 14px; }
+  .tag { display: inline-block; background: #2a2a3e; color: #f0a0ff; padding: 3px 10px; border-radius: 12px; font-size: 11px; margin-right: 6px; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="topic">AI Learning · Tuesday, June 9, 2026</div>
+    <h1>Mixture of Experts: How Giant Models Stay Fast</h1>
+    <div class="date">Daily Learning Insight</div>
+  </div>
+
+  <div class="section">
+    <h2>🧒 Like You're 5</h2>
+    <p>Imagine you're at a huge restaurant with 100 chefs. Every time someone orders food, you don't need ALL 100 chefs to cook it — you just need the 2 or 3 who are best at that dish. The rest keep relaxing. That's Mixture of Experts (MoE) for AI!</p>
+    <p style="margin-top:10px;">Instead of every part of a giant brain working on every question, MoE picks only the "expert" parts that know the most about your specific question. The result? A model with TRILLIONS of parameters that only uses a fraction of them at a time — fast and smart.</p>
+  </div>
+
+  <div class="bridge">↓</div>
+
+  <div class="section">
+    <h2>🔧 For the Engineer</h2>
+    <p>Mixture of Experts is an architecture that lets models scale to massive parameter counts while keeping inference costs manageable. A <strong>router network</strong> decides which subset of expert sub-networks to activate per token.</p>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <h3>Router / Gating Network</h3>
+        <p>A lightweight network that scores each expert for the input token and picks the top-K (usually top-1 or top-2). This is the "traffic controller" of MoE.</p>
+      </div>
+      <div class="tech-item">
+        <h3>Expert Sub-networks</h3>
+        <p>Independent FFN (feed-forward network) blocks, each specializing in different types of patterns. In Mixtral, there are 8 experts but only 2 are active per token.</p>
+      </div>
+      <div class="tech-item">
+        <h3>Sparse Activation</h3>
+        <p>Only K out of N experts fire per token. A 12B MoE model might only use ~2.4B params per forward pass — 5x compute savings vs dense.</p>
+      </div>
+      <div class="tech-item">
+        <h3>Load Balancing Loss</h3>
+        <p>Without regularization, routers collapse to always picking the same experts. Auxiliary loss ensures uniform expert utilization across batches.</p>
+      </div>
+      <div class="tech-item">
+        <h3>Key Models</h3>
+        <p><strong>Mixtral 8x7B</strong> (Mistral), <strong>DeepSeek-MoE</strong>, <strong>Switch Transformer</strong> (Google), <strong>DBRX</strong> (Databricks). DeepSeek-V3 uses 671B total with 37B active.</p>
+      </div>
+      <div class="tech-item">
+        <h3>Your Stack: vLLM + MoE</h3>
+        <p>vLLM supports Mixtral and DeepSeek-MoE with <code>tensor_parallel_size</code> for multi-GPU. Expert parallelism is a newer frontier — placing different experts on different GPUs to reduce memory per device.</p>
+        <pre><code># Run Mixtral with vLLM
+python -m vllm.entrypoints.openai.api_server \
+  --model mistralai/Mixtral-8x7B-Instruct-v0.1 \
+  --tensor-parallel-size 4 \
+  --max-model-len 32768</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>💡 Why MoE Matters for NVCF</h2>
+    <p>As you work with NVCF deployments, MoE models are becoming the default for high-capability serving. The sparse activation pattern means you can serve a 70B-class model on the same hardware that would normally handle a 13B dense model. The tradeoff? Higher memory bandwidth requirements (all experts must be loaded) but lower compute. This is why MoE inference benefits from high-bandwidth GPUs like H100s — exactly the hardware NVCF runs on.</p>
+    <p style="margin-top:10px;">The next time you see a model card with "active params" vs "total params" — that's MoE at work. DeepSeek-V3's 37B active / 671B total ratio is the extreme end of this spectrum.</p>
+  </div>
+
+  <div class="section">
+    <h2>⚡ Micro-action</h2>
+    <div class="micro-action">
+      <h3>Do this in 5 minutes</h3>
+      <p>Open the HuggingFace model page for <strong>Mixtral-8x7B</strong> and check the <code>config.json</code> — look for <code>num_local_experts</code> and <code>num_experts_per_tok</code>. Compare the total parameter count vs active params per token. This single config tells you the entire MoE story.</p>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top: 12px;">
+    <span class="tag">MoE</span>
+    <span class="tag">Sparse Activation</span>
+    <span class="tag">vLLM</span>
+    <span class="tag">Mixtral</span>
+    <span class="tag">DeepSeek</span>
+  </div>
+</div>
+</body>
+</html>
