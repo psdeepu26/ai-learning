@@ -1,9 +1,9 @@
 [
   {
-    "file": "ai-learning---generation-controls/temperature-top-p-token-sampling_20260728.html",
-    "category": "ai-learning---generation-controls",
-    "title": "temperature-top-p-token-sampling 20260728",
-    "emoji": "📚",
+    "file": "generation-controls/temperature-top-p-token-sampling_20260728.html",
+    "category": "generation-controls",
+    "title": "Temperature and Top-p: Steering the Next Token",
+    "emoji": "🤖",
     "timestamp": "20260727_203228"
   },
   {
