@@ -1,5 +1,12 @@
 [
   {
+    "file": "ai-interfaces/structured-outputs-reliable-llm-apis_20260804.html",
+    "category": "ai-interfaces",
+    "title": "structured-outputs-reliable-llm-apis 20260804",
+    "emoji": "📚",
+    "timestamp": "20260803_203324"
+  },
+  {
     "file": "generation-controls/temperature-top-p-token-sampling_20260728.html",
     "category": "generation-controls",
     "title": "Temperature and Top-p: Steering the Next Token",
